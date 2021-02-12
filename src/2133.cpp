@@ -17,6 +17,7 @@ int main(int argc, char* argv[]) {
     
     cin >> n;
     
+    dp[0] = 1;
     dp[1] = 0;
     dp[2] = 3;
     dp[3] = 0;
@@ -25,7 +26,12 @@ int main(int argc, char* argv[]) {
     for(int i=5;i<=n;i++){
         if(i%2 == 1) continue;
         
-        dp[i] = dp[i-2] * 3 + dp[i-4] * 11;
+        dp[i] = dp[i-2] * 3;
+        
+        for(int j=4;j<=i;j=j+2){
+          dp[i] += dp[i-j] * 2;  
+        }
+        
     }
     
     cout << dp[n] << '\n';
