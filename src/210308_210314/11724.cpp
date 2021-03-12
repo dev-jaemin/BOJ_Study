@@ -1,17 +1,17 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
-#include <stack>
-#include <queue>
 
 
 using namespace std;
 
-int n, m, v, a, b;
+int n, m, answer;
 vector<int> adj[1010];
 bool visited[1010];
 
 void makeAdjList(int count, int size){
+    int a, b;
+    
     for(int i=1;i<=count;i++){
         cin >> a >> b;
         
@@ -24,10 +24,11 @@ void makeAdjList(int count, int size){
     }
 }
 
+
 void dfs(int start){
     visited[start] = true;
     
-    cout << start << ' ';
+    //cout << start << ' ';
     
     for(int i=0;i<adj[start].size();i++){
         int nextNode = adj[start][i];
@@ -39,51 +40,24 @@ void dfs(int start){
     
 }
 
-void bfs(int start){
-    queue<int> q;
-    
-    visited[start] = true;
-    
-    q.push(start);
-    
-    while(!q.empty()){
-        int curNode = q.front();
-        q.pop();
-        cout << curNode << ' ';
-        
-        for(int i=0;i<adj[curNode].size();i++){
-            int nextNode = adj[curNode][i];
-            
-            if(!visited[nextNode]){
-                q.push(nextNode);
-                visited[nextNode] = true;
-            }
-        }
-    }
-    
-}
-
 
 int main(int argc, char* argv[]) {
 	ios_base :: sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
     
-    cin >> n >> m >> v;
+    cin >> n >> m;
     
     makeAdjList(m, n);
     
-    dfs(v);
-    cout << '\n';
-    
     for(int i=1;i<=n;i++){
-        visited[i] = false;
+        if(!visited[i]){
+            dfs(i);
+            answer++;
+        }
     }
     
-    bfs(v);
-    cout << '\n';
-
-    
+    cout << answer << '\n';
 	
 	return 0;
 }
