@@ -7,11 +7,13 @@
 
 using namespace std;
 
-int n, m, v, a, b;
+int n, m, v;
 vector<int> adj[1010];
 bool visited[1010];
 
 void makeAdjList(int count, int size){
+    int a, b;
+    
     for(int i=1;i<=count;i++){
         cin >> a >> b;
         

@@ -2,11 +2,15 @@
 #include <algorithm>
 #include <vector>
 
+#define RED 1
+#define BLUE -1
+
 
 using namespace std;
 
-int n, m, k, graph_n;
-bool visited[20010];
+int n, m, k;
+int color_matrix[20010];
+bool bipartite;
 
 void makeAdjList(vector<int> adj[], int count, int size){
     int a, b;
@@ -24,15 +28,19 @@ void makeAdjList(vector<int> adj[], int count, int size){
 }
 
 
-void dfs(vector<int> adj[], int start){
-    visited[start] = true;
-    
-    //cout << start << ' ';
-    
+void dfs(vector<int> adj[], int start, int color){
+    color_matrix[start] = color;
+
     for(int i=0;i<adj[start].size();i++){
         int nextNode = adj[start][i];
-        if(!visited[nextNode]){
-            dfs(adj, nextNode);
+        
+        if(color == color_matrix[nextNode]){
+            bipartite = false;
+            return;
+        }
+        
+        if(color_matrix[nextNode] == 0){
+            dfs(adj, nextNode, -color);
         }
     }
 }
@@ -47,28 +55,26 @@ int main(int argc, char* argv[]) {
     
     while(k--){
         cin >> n >> m;
-        
-        graph_n = 0;
-    
+
         vector<int> adj[20010];
         makeAdjList(adj, m, n);
-        for(int i=1;i<=n;i++) visited[i] = false;
-    
+        
         for(int i=1;i<=n;i++){
-            if(!visited[i]){
-                dfs(adj, i);
-                graph_n++;
-            }
+            color_matrix[i] = 0;
         }
         
-        if(graph_n == 2){
-            cout << "YES\n";
+        bipartite = true;
+        
+        for(int i=1;i<=n;i++){
+            if(!bipartite) break;
+            if(color_matrix[i] == 0) dfs(adj, i, RED);
         }
-        else{
-            cout << "NO\n";
-        }
-    }
+        
+        
+        if(bipartite) cout << "YES\n";
+        else cout << "NO\n";
     
+    }
 	
 	return 0;
 }
