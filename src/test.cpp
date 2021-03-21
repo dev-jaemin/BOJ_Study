@@ -6,12 +6,7 @@
 
 using namespace std;
 
-int n;
-//int matrix[30][30];
-char matrix[30][30];
-bool visited[30][30];
-vector<int> answer;
-pair<int, int> start;
+int test[300];
 
 
 int main(int argc, char* argv[]) {
@@ -19,18 +14,9 @@ int main(int argc, char* argv[]) {
     cin.tie(NULL);
     cout.tie(NULL);
 	
-    cin >> n;
-    for(int i=1;i<=n;i++){
-        for(int j=1;j<=n;j++){
-            cin >> matrix[i][j];
-        }
-    }
+    test['A'] = 20;
     
-    for(int i=1;i<=n;i++){
-        for(int j=1;j<=n;j++){
-            cout << matrix[i][j];
-        }
-        cout << '\n';
-    }
+    cout << test['A'];
+    
 	return 0;
 }
