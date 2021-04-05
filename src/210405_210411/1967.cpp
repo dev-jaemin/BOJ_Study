@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int v, tmp, node, d, end_node;
+int v, n1, n2, d, end_node;
 vector<int> adj[100010];
 vector<int> dist[100010];
 bool visited[100010];
@@ -42,17 +42,14 @@ int main(int argc, char* argv[]) {
 	
     cin >> v;
     
-    for(int i=1;i<=v;i++){
-        cin >> tmp;
-        cin >> node;
-        while(node != -1){
-            cin >> d;
-            
-            adj[tmp].push_back(node);
-            dist[tmp].push_back(d);
-            
-            cin >> node;
-        }
+    for(int i=1;i<v;i++){
+        cin >> n1 >> n2 >> d;
+        
+        adj[n1].push_back(n2);
+        adj[n2].push_back(n1);
+        
+        dist[n1].push_back(d);
+        dist[n2].push_back(d);
     }
     
     dfs(1, 0);
