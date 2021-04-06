@@ -7,7 +7,7 @@
 using namespace std;
 
 int n;
-long long m, h, total, l, r, mid;
+long long m, h, total, l, r, mid, answer;
 vector<long long> trees;
 
 
@@ -24,9 +24,10 @@ int main(int argc, char* argv[]) {
         if(h > r) r = h;
     }
     
-    l = 1;
+    l = 0;
+    r--;
     
-    while(l < r){
+    while(l <= r){
         mid = (r + l) / 2;
         total = 0;
         
@@ -34,18 +35,16 @@ int main(int argc, char* argv[]) {
             if(trees[i] - mid > 0) total += trees[i] - mid;
         }
         
-        if(total < m){
-            r = mid;
-        }
-        else if(total > m){
-            l = mid + 1;
+        if(m > total){
+            r = mid - 1;
         }
         else{
-            break;
+            answer = mid; // 이게 뭘까
+            l = mid + 1;
         }
     }
     
-    cout << mid << '\n';
+    cout << answer << '\n';
     
 	
 	return 0;
