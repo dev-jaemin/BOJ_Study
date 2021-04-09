@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int test[300];
+vector<int> test;
 
 
 int main(int argc, char* argv[]) {
@@ -14,9 +14,11 @@ int main(int argc, char* argv[]) {
     cin.tie(NULL);
     cout.tie(NULL);
 	
-    test['A'] = 20;
-    
-    cout << test['A'];
+    for(int i=0;i<10;i++){
+        test.push_back(i);
+    }
+    //vector는 range가 초과해도 에러가 발생하지 않는다.
+    cout << test[10] << '\n';
     
 	return 0;
 }
