@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <string>
 #include <queue>
+#include <stack>
 
 
 using namespace std;
@@ -9,6 +10,7 @@ using namespace std;
 int t, a, b;
 int visited[10000];
 int from[10000][2];
+stack<char> ans;
 
 int d(int k){
     return (k * 2) % 10000;
@@ -95,8 +97,15 @@ void bfs(){
 void tracking(int k){
     if(from[k][1] == -1) return;
     
-    cout << (char)from[k][0];
+    ans.push(from[k][0]);
     tracking(from[k][1]);
+}
+
+void print_stack(){
+    while(!ans.empty()){
+        cout << ans.top();
+        ans.pop();
+    }
 }
 
 
@@ -112,6 +121,7 @@ int main(int argc, char* argv[]) {
         
         bfs();
         tracking(b);
+        print_stack();
         cout << '\n';
         
         for(int i=0;i<10000;i++){
@@ -119,6 +129,8 @@ int main(int argc, char* argv[]) {
             from[i][0] = 0;
             from[i][1] = 0;
         }
+        
+        
     }
 	
 	return 0;
