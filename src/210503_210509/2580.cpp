@@ -91,6 +91,70 @@ bool chk(pair<int, int> p, int n){
 }
 
 
+bool chk2(pair<int, int> p, int n){
+    int x = p.first;
+    int y = p.second;
+    vector<int> sq_hor;
+    vector<int> sq_ver;
+    
+    for(int i=0;i<9;i++){
+        if(n == matrix[i][y]){
+            return false;
+        }
+    }
+    
+    for(int i=0;i<9;i++){
+        if(n == matrix[x][i]){
+            return false;
+        }
+    }
+    
+    if(x%3==0){
+        for(int i=0;i<3;i++){
+            sq_hor.push_back(x+i);
+        }
+    }
+    else if(x%3==1){
+        for(int i=-1;i<=1;i++){
+            sq_hor.push_back(x+i);
+        }
+    }
+    else{
+        for(int i=-2;i<=0;i++){
+            sq_hor.push_back(x+i);
+        }
+    }
+    
+    if(y%3==0){
+        for(int i=0;i<3;i++){
+            sq_ver.push_back(y+i);
+        }
+    }
+    else if(y%3==1){
+        for(int i=-1;i<=1;i++){
+            sq_ver.push_back(y+i);
+        }
+    }
+    else{
+        for(int i=-2;i<=0;i++){
+            sq_ver.push_back(y+i);
+        }
+    }
+    
+    for(int i=0;i<3;i++){
+        for(int j=0;j<3;j++){
+            /*if(sq_ver[j] == x && sq_hor[i] == y){
+                continue;
+            }*/
+            
+            if(matrix[sq_hor[j]][sq_ver[i]] == n) return false;
+        }
+    }
+    
+    return true;
+}
+
+
 
 void dfs(int level, bool* success){
     if(*success == true) return;
@@ -103,9 +167,10 @@ void dfs(int level, bool* success){
     }
     
     for(int i=1;i<=9;i++){
-        if(chk(zeros[level], i)){
+        if(chk2(zeros[level], i)){
             matrix[zeros[level].first][zeros[level].second] = i;
             dfs(level+1, success);
+            if(*success == true) return;
             matrix[zeros[level].first][zeros[level].second] = 0;
         }
     }
