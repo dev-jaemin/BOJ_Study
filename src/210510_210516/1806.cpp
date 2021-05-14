@@ -1,7 +1,5 @@
 #include <iostream>
 #include <algorithm>
-#include <string>
-#include <vector>
 
 
 using namespace std;
@@ -9,14 +7,14 @@ using namespace std;
 int n, s, sum, tmp, ans;
 int arr[100010];
 
-int chk(int i){
-    int maxx = 0;
-    
-    for(int j=0;j<n-i;j++){
-        maxx = max(maxx, arr[j+i] - arr[j]);
+bool chk(int i){
+    for(int j=0;j<=n-i;j++){
+        if(arr[j+i] - arr[j] >= s){
+            return true;
+        }
     }
     
-    return maxx;
+    return false;
 }
 
 
@@ -36,24 +34,21 @@ int main(int argc, char* argv[]) {
         arr[i] = sum;
     }
     
-    int mid, key;
-    int l = 0;
+    //길이로 lower_bound하기
+    int mid;
+    int l = 1;
     int r = n;
     
     while(l <= r){
         mid = (l + r) / 2;
-        
-        key = chk(mid);
-        
-        if(key == s){
-            ans = mid;
-            break;
-        }
-        else if(key < s){
-            l = mid + 1;
+      
+        //lower_bound
+        if(chk(mid)){
+            ans = mid; // r은 mid-1이라서 마지막으로 되는 것을 놓칠 수가 있음
+            r = mid - 1;
         }
         else{
-            r = mid - 1;
+            l = mid + 1;
         }
     }
     
