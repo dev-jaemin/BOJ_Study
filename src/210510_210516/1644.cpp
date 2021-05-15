@@ -5,11 +5,13 @@
 
 using namespace std;
 
-int n, s, sum, tmp, ans;
+int n, s, e, sum, ans;
 vector<int> arr;
-bool prime[N]; // false : prime number
+vector<bool> prime; // false : prime number
 
-void make_prime(int n){
+void make_prime(){
+    prime.resize(n+1, false);
+    
     prime[0] = true;
     prime[1] = true;
     
@@ -21,12 +23,12 @@ void make_prime(int n){
         }
     }
     
-    arr.push_back(0);
+    //arr.push_back(0);
     
     for(int i=2;i<=n;i++){
         if(!prime[i]){
-            sum += i;
-            arr.push_back(sum);
+            //sum += i;
+            arr.push_back(i);
         }
     }
 }
@@ -41,9 +43,9 @@ int main(int argc, char* argv[]) {
     
     
     cin >> n;
-    make_prime(n);
+    make_prime();
     
-    
+    /* 무식하게 모든 경우를 체크 -> 시간초과
     for(int i=0;i<arr.size();i++){
         for(int j=i+1;j<arr.size();j++){
             if(n == arr[j] - arr[i]){
@@ -51,7 +53,22 @@ int main(int argc, char* argv[]) {
             }
         }
     }
+    */
+    
+    
+    //두 포인터 사용
+    //start가 가리키는 곳은 포함되고, end가 가리키는 곳은 포함 x
+    while(1){
+        if(sum >= n) sum -= arr[s++];
+        else if(e == arr.size()) break;
+        else sum += arr[e++];
+        
+        if(sum == n) {
+            //cout << arr[s] << ' ' << arr[e-1] << ' ' << '\n';
+            ans++;
+        }
 
+    }
     
     
     cout << ans << '\n';

@@ -7,7 +7,7 @@
 using namespace std;
 
 int n, s, tmp, sum, ans;
-vector<int> v;
+vector<int> v1, v2;
 
 int main(int argc, char* argv[]) {
 	ios_base :: sync_with_stdio(false);
