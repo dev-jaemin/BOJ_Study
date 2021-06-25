@@ -20,4 +20,4 @@ total solve(~21.6.12) : 143
 21.5.10 ~ 21.5.16 : 1182 2003 1806 1644 -> 4
 
 ###algospot
-jaehasafe fortress
+jaehasafe fortress insertion runningmedian

@@ -94,10 +94,10 @@ Node* merge(Node* a, Node* b){
 Node* erase(Node* root, KeyType key){
     if(root == NULL) return root;
     
-    if(root->key < key){
+    if(root->key > key){
         root->setLeft(erase(root->left, key));
     }
-    else if(root->key > key){
+    else if(root->key < key){
         root->setRight(erase(root->right, key));
     }
     else{
@@ -147,6 +147,7 @@ int main(int argc, char* argv[]) {
             
             root = insert(root, new Node(i+1));
         }
+        
         
         for(int i = n-1; i>=0; i--){
             int larger = shifted[i];
