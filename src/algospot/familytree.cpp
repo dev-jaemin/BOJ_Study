@@ -6,9 +6,17 @@
 
 using namespace std;
 
-const int INT_MAX = numeric_limits<int>::max();
-int c;
 
+int c;
+const int MAX_N = 100000;
+int n, q;
+vector<int> child[MAX_N];
+//트리 번호와 일련번호 사이의 관계(트리 번호 : 문제에서 제시한 번호, 일련 번호 : 부모가 자식보다 숫자가 작도록 전위순회하면서 부여한 숫자)
+int no2serial[MAX_N], serial2no[MAX_N];
+//각 노드가 trip에 처음 등장하는 위치, 그리고 각 노드의 깊이
+int locInTrip[MAX_N], depth[MAX_N];
+//다음 일련번호
+int nextSerial;
 
 
 struct RMQ{
@@ -34,7 +42,7 @@ struct RMQ{
     //[nodeLeft, nodeRight] : node가 표현하는 범위
     int query(int left, int right, int node, int nodeLeft, int nodeRight){
         if(right < nodeLeft || left > nodeRight){
-            return INT_MAX;
+            return MAX_N;
         }
         //node가 표현하는 범위가 array[left..right]에 완전히 포함되는 경우 -> 그 안에서 최솟값은 구해져 있으니까 바로 종료 -> 재귀중인 다른 부분의 결과값이 나오면 최솟값 비교하면됌.
         if(left <= nodeLeft && nodeRight <= right){
@@ -75,30 +83,24 @@ struct RMQ{
 
 
 
-const int MAX_N = 100000;
-int n, q;
-vector<int> child[MAX_N];
-//트리 번호와 일련번호 사이의 관계(트리 번호 : 문제에서 제시한 번호, 일련 번호 : 부모가 자식보다 숫자가 작도록 전위순회하면서 부여한 숫자)
-int no2serial[MAX_N], serial2no[MAX_N];
-//각 노드가 trip에 처음 등장하는 위치, 그리고 각 노드의 깊이
-int localTrip[MAX_N], depth[MAX_N];
-//다음 일련번호
-int nextSerial;
+
 
 
 //깊이가 d인 노드 here이하를 전위 탐색한다.
+//trip은 일련번호로 이루어진 배열.
 void traverse(int here, int d, vector<int>& trip){
     no2serial[here] = nextSerial;
     serial2no[nextSerial] = here;
-    depth[nextSerial] = d;
+    
     nextSerial++;
     
-    trip.push_back(here);
-    
+    depth[here] = d;
+    locInTrip[here] = trip.size();
+    trip.push_back(no2serial[here]);
     
     for(int i=0;i<child[here].size();i++){
         traverse(child[here][i], d+1, trip);
-        trip.push_back(here);
+        trip.push_back(no2serial[here]);
     }
 }
 
@@ -113,13 +115,18 @@ RMQ* prepareRMQ(){
 }
 
 //u와 v 사이의 거리를 계산한다.
-int distance(RQM* rmq, int u, int v){
-    int serialU = no2serial[u];
-    int serialV = no2serial[v];
+int distance(RMQ* rmq, int u, int v){
+    int lu = locInTrip[u];
+    int lv = locInTrip[v];
     
-    int parentDepth = depth[rmq->query(u, v)];
+    //cout << "lu : " << lu << " lv : " << lv << '\n';
     
-    return (depth[serialU] - parentDepth) + (depth[serialV] - parentDepth);
+    if(lu > lv) swap(lu, lv);
+    
+    int parentDepth = depth[serial2no[rmq->query(lu, lv)]];
+    
+    //cout << "du : " << depth[u] << " dv : " << depth[v] << '\n';
+    return (depth[u] - parentDepth) + (depth[v] - parentDepth);
 }
 
 
@@ -131,6 +138,8 @@ int main(int argc, char* argv[]) {
     cin >> c;
     
     while(c--){
+        
+        
         cin >> n >> q;
         
         for(int i=1;i<n;i++){
@@ -140,14 +149,16 @@ int main(int argc, char* argv[]) {
             child[parent].push_back(i);
         }
         
-        
-        int a, b;
-        cin >> a >> b;
-        
-        
         RMQ* rmq = prepareRMQ();
+
         
-        cout << distance(a, b) << '\n';
+        for(int i=0;i<q;i++){
+            int a, b;
+            cin >> a >> b;
+        
+            cout << distance(rmq, a, b) << '\n';
+        }
+        
     }
 	
 	return 0;
