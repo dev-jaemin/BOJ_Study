@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <cassert>
 
 
 using namespace std;
@@ -138,9 +139,10 @@ int main(int argc, char* argv[]) {
     cin >> c;
     
     while(c--){
-        
-        
         cin >> n >> q;
+        for(int i=0;i<MAX_N;i++){
+            child[i].clear();
+        }
         
         for(int i=1;i<n;i++){
             int parent;
@@ -150,7 +152,6 @@ int main(int argc, char* argv[]) {
         }
         
         RMQ* rmq = prepareRMQ();
-
         
         for(int i=0;i<q;i++){
             int a, b;
