@@ -22,7 +22,7 @@ struct FenwickTree{
             pos &= (pos-1);
         }
         
-        return ret;
+        return ret; 
     }
     
     void add(int pos, int val){
@@ -34,15 +34,40 @@ struct FenwickTree{
     }
 };
 
+int c;
 
-
-int n;
+long long countMoves(const vector<int>& A){
+    FenwickTree tree(1000000);
+    long long ret = 0;
+    
+    for(int i=0;i<A.size();i++){
+        ret += tree.sum(999999) - tree.sum(A[i]);
+        
+        tree.add(A[i], 1);
+    }
+    
+    return ret;
+}
 
 
 int main(int argc, char* argv[]) {
 	ios_base :: sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
+    
+    cin >> c;
+    
+    while(c--){
+        int n;
+        cin >> n;
+        vector<int> A(n);
+        
+        for(int i=0;i<n;i++){
+            cin >> A[i];
+        }
+        
+        cout << countMoves(A) << '\n';
+    }
 	
 	return 0;
 }
