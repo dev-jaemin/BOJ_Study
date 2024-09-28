@@ -21,19 +21,16 @@ class Node {
 // 기존 최단거리 vs 새로 계산한 최단거리 비교해보고, 만약 업데이트가 필요하다면 필요한 노드를 pq에 넣음(그래야 그 뒤 노드들에 대해서 다시 계산 가능하므로)
 // 목표 지점 도달 시 종료
 public class Main {
-    HashMap<Integer, Integer> memo = new HashMap<>();
-    int subinIndex = 0;
     final int INF = 9999999;
     
     void solution() throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        subinIndex = Integer.parseInt(st.nextToken());
+        int subinIndex = Integer.parseInt(st.nextToken());
         int brotherIndex = Integer.parseInt(st.nextToken());
         PriorityQueue<Node> pq = new PriorityQueue<>((a, b) -> a.distance - b.distance);
         int[] distances = new int[100001];
-        boolean[] isVisited = new boolean[100001];
         int answer = INF;
 
         for(int i = 0; i < 100001; i++){
